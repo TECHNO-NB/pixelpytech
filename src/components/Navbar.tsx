@@ -2,19 +2,19 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Code2, Menu, X } from "lucide-react";
- 
+
 const links = ["Services", "Work", "Process", "Tech", "Testimonials", "Contact"];
- 
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
- 
+
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 30);
     window.addEventListener("scroll", handler);
     return () => window.removeEventListener("scroll", handler);
   }, []);
- 
+
   return (
     <motion.nav
       initial={{ y: -80, opacity: 0 }}
@@ -42,7 +42,7 @@ export default function Navbar() {
             Pixelpy<span className="gradient-text">Tech</span>
           </span>
         </motion.div>
- 
+
         {/* Desktop Links */}
         <div className="hidden md:flex items-center gap-8">
           {links.map((link) => (
@@ -56,7 +56,7 @@ export default function Navbar() {
             </motion.a>
           ))}
         </div>
- 
+
         {/* CTA */}
         <motion.a
           href="#contact"
@@ -67,7 +67,7 @@ export default function Navbar() {
         >
           Get Started
         </motion.a>
- 
+
         {/* Mobile Menu Toggle */}
         <button
           className="md:hidden text-white/70 hover:text-white transition-colors"
@@ -76,7 +76,7 @@ export default function Navbar() {
           {open ? <X size={22} /> : <Menu size={22} />}
         </button>
       </div>
- 
+
       {/* Mobile Menu */}
       <AnimatePresence>
         {open && (
@@ -121,4 +121,3 @@ export default function Navbar() {
     </motion.nav>
   );
 }
- 
