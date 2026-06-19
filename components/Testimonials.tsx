@@ -3,14 +3,14 @@ import { motion } from "framer-motion";
 import { Star, Quote } from "lucide-react";
 
 const testimonials = [
-  {
-    name: "Mithila Tech",
-    role: "Project Feedback, Mithila Tech",
-    avatar: "MT",
-    avatarColor: "#3B82F6",
-    rating: 5,
-    text: "The dashboard design and performance were exactly what we needed. Everything feels fast, clean, and easy to use for our internal operations.",
-  },
+{
+  name: "Dunai Boarding School",
+  role: "Project Feedback, Dunai Boarding School",
+  avatar: "DB",
+  avatarColor: "#3B82F6",
+  rating: 5,
+  text: "The platform has significantly improved how we manage our daily operations. It's fast, reliable, and easy for our staff to use. We are very satisfied with the results and the professionalism of the team.",
+},
   {
     name: "Subba Cleaner",
     role: "Project Feedback, Subba Cleaner",

@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Globe, Smartphone } from "lucide-react";
+import dunaiboarding from "@/public/dunaiboardingschoolpic.png"
 import mithilatech from "@/public/mithilatech.jpg"
 import subbacleaner from "@/public/subbacleaner.jpg"
 import sajilodrainage from "@/public/sajilodrainage.jpg"
@@ -8,13 +9,14 @@ import Image from "next/image";
 
 const projects = [
   {
-    title: "Mithila Tech",
-    img:mithilatech,
+    title: "Dunai Boarding School",
+    img:dunaiboarding,
     category: "Web App",
     description: "A modern fintech dashboard with real-time analytics, AI-powered insights, and multi-currency support for global payments.",
     icon: Globe,
-    tags: ["Next.js", "TypeScript", "Stripe", "PostgreSQL"],
+    tags: ["Next.js", "TypeScript", "Express js", "MySql"],
     gradient: "from-blue-600 to-blue-900",
+    link:"https://dunaiboardingschool.com",
     accent: "#3B82F6",
     year: "2026",
     mockBg: "#0D1B3E",
@@ -106,14 +108,14 @@ function ProjectCard({ project, index }: { project: (typeof projects)[0]; index:
             className="text-2xl font-bold text-white"
             style={{ fontFamily: "Syne, sans-serif" }}
           >
-            {project.title}
+          <a href={project.link} > {project.title} </a>
           </h3>
           <motion.div
             className="w-9 h-9 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
             style={{ background: `${project.accent}20`, border: `1px solid ${project.accent}30` }}
             whileHover={{ scale: 1.1, rotate: 45 }}
           >
-            <ArrowUpRight size={16} color={project.accent} />
+           <a href={project.link} ><ArrowUpRight size={16} color={project.accent} /></a> 
           </motion.div>
         </div>
 
