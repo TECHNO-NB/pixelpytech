@@ -9,13 +9,6 @@ export const metadata: Metadata = {
     template: "%s | Pixelpy Tech",
   },
 
-  icons: {
-    icon: "/logo.png",
-    shortcut: "/logo.png",
-    apple: "/logo.png",
-  },
-
-
   description:
     "Pixelpy Tech specializes in custom web development, mobile app development, UI/UX design, and digital solutions that help businesses grow online.",
 
