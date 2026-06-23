@@ -15,7 +15,6 @@ export const metadata: Metadata = {
     apple: "/logo.png",
   },
 
-
   description:
     "Pixelpy Tech specializes in custom web development, mobile app development, UI/UX design, and digital solutions that help businesses grow online.",
 
