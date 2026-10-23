@@ -1,5 +1,5 @@
 "use client"
-import { Work } from '@/components/work'
+import { Work } from '@/components/Work'
 import React from 'react'
 
 const page = () => {
