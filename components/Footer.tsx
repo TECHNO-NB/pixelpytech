@@ -51,7 +51,7 @@ const LEGAL = [
   { name: "Terms of Service", href: "/terms" },
 ];
 
-// Same URLs as SITE.sameAs in lib/about-data.ts, so the visible links and the structured data match
+
 const SOCIALS = [
   { name: "Facebook", href: SITE.sameAs[0], icon: Facebook },
   { name: "Instagram", href: SITE.sameAs[1], icon: Instagram }
@@ -166,7 +166,6 @@ export function Footer() {
               </ul>
             </FooterItem>
 
-            {/* services */}
             <FooterItem>
               <nav aria-label="Our services">
                 <h3 className="mb-5 font-mono text-xs uppercase tracking-widest text-ink/40 dark:text-paper/40">
