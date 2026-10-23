@@ -1,5 +1,5 @@
 "use client"
-import { Services } from '@/components/services'
+import { Services } from '@/components/Services'
 import React from 'react'
 
 const page = () => {
