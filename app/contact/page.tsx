@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Contact } from "@/components/contact";
+import { Contact } from "@/components/Contact";
 import { SITE } from "@/lib/about-data";
 import { CONTACT, CONTACT_FAQS, PHONE } from "@/lib/contact-data";
 

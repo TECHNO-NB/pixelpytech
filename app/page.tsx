@@ -1,7 +1,7 @@
-import { Hero } from "@/components/hero";
+import { Hero } from "@/components/Hero";
 import { Services } from "@/components/services";
-import { Work } from "@/components/work";
-import { Process } from "@/components/process";
+import { Work } from "@/components/Work";
+import { Process } from "@/components/Process";
 import { CTA } from "@/components/cta";
 
 
