@@ -1,5 +1,5 @@
 import { Hero } from "@/components/Hero";
-import { Services } from "@/components/services";
+import { Services } from "@/components/Services";
 import { Work } from "@/components/Work";
 import { Process } from "@/components/Process";
 import { CTA } from "@/components/cta";
