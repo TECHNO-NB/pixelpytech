@@ -1,0 +1,15 @@
+# PixelPy Tech
+
+> PixelPy Tech is a full-service digital product studio specializing in custom web development, mobile app development, and UI/UX design. We engineer high-performance, SEO-optimized web applications and native iOS and Android apps using Next.js, TypeScript, React Native, and Node.js — delivering products from initial wireframe to production deployment.
+
+## Core Services & Pages
+- [About Us](https://pixelpy.tech/about): Our engineering philosophy, software development lifecycle, core team expertise, and client FAQs.
+- [Services](https://pixelpy.tech/#services): Custom web development, cross-platform mobile apps, UI/UX prototyping, full-stack architecture, and site speed optimization.
+- [Portfolio & Work](https://pixelpy.tech/#work): Case studies and selected client projects showcasing production-ready software shipping.
+- [Contact & Hire Us](https://pixelpy.tech/#contact): Get a project quote, consult on technical stack architecture, or hire our product studio.
+
+## Core Stack & Capabilities
+- Frontend: Next.js, React, TypeScript, Tailwind CSS
+- Mobile: React Native, Expo (iOS & Android App Store release)
+- Backend & Databases: Node.js, Express, Python, PostgreSQL, MongoDB, Prisma
+- Metrics: 15+ digital products shipped, 4.9/5 average client satisfaction rating

@@ -1,307 +1,187 @@
 "use client";
-import { motion } from "framer-motion";
-import { useState } from "react";
-import { Mail, Send, CheckCircle, MessageSquare, Clock, Award, DollarSign } from "lucide-react";
 
-const perks = [
-  { icon: Clock, text: "Response within 24 hours" },
-  { icon: MessageSquare, text: "Free project discussion" },
-  { icon: DollarSign, text: "Clear pricing & timeline" },
-  { icon: Award, text: "No-commitment proposal" },
-];
+import { motion, type Variants } from "framer-motion";
+import { ArrowUpRight, ChevronDown, Clock, Mail } from "lucide-react";
+import { WhatsAppIcon } from "./whatsapp-icon";
+import { ContactForm } from "./contact-form";
+import { CONTACT, CONTACT_FAQS, STEPS, WHATSAPP_URL } from "@/lib/contact-data";
 
-export default function Contact() {
-  const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [form, setForm] = useState({ name: "", email: "", project: "", budget: "" });
+const container: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.12, delayChildren: 0.1 } },
+};
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
+};
+const underline: Variants = {
+  hidden: { scaleX: 0 },
+  show: { scaleX: 1, transition: { duration: 0.8, ease: "easeOut" } },
+};
+const lineY: Variants = {
+  hidden: { scaleY: 0 },
+  show: { scaleY: 1, transition: { duration: 1, ease: "easeOut" } },
+};
+const card: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
+  hover: { y: -4, transition: { type: "spring", stiffness: 300, damping: 20 } },
+};
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setSubmitted(true);
-    }, 1800);
-  };
+const inView = {
+  initial: "hidden",
+  whileInView: "show",
+  viewport: { once: true, amount: 0.2 },
+} as const;
 
+const cardClass =
+  "group relative flex items-center gap-4 overflow-hidden rounded-2xl border border-ink-line/10 p-5 transition-colors hover:bg-paper-soft dark:border-paper-line/10 dark:hover:bg-ink-soft";
+const iconBox =
+  "flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-ink-line/10 bg-ink/[0.03] dark:border-paper-line/10 dark:bg-paper/[0.04]";
+
+export function Contact() {
   return (
-    <section id="contact" className="relative py-16 px-6 md:px-10">
-      {/* Background glows */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse 80% 60% at 50% 100%, rgba(168,85,247,0.08) 0%, transparent 70%)",
-        }}
-      />
+    <main>
+      {/* ===== HERO + FORM ===== */}
+      <section className="relative overflow-hidden pb-16 pt-28 md:pb-24 lg:px-20">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-dot-grid bg-dot-sm text-ink-line/60 dark:text-paper-line/[0.15]"
+          style={{
+            maskImage: "radial-gradient(ellipse 70% 60% at 50% 0%, black 40%, transparent 90%)",
+          }}
+        />
+        <motion.div
+          aria-hidden
+          animate={{ y: [0, -24, 0], opacity: [0.3, 0.5, 0.3] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          className="pointer-events-none absolute -right-24 top-24 h-72 w-72 rounded-full bg-purple-500/20 blur-3xl"
+        />
 
-      <div className="max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          {/* Left: Info */}
-          <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <div
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium mb-8"
-              style={{
-                background: "rgba(168,85,247,0.1)",
-                border: "1px solid rgba(168,85,247,0.3)",
-                color: "#C084FC",
-              }}
+        <div className="container-px relative">
+          <motion.div variants={container} initial="hidden" animate="show" className="max-w-3xl">
+            <motion.nav aria-label="Breadcrumb" variants={fadeUp}>
+              <ol className="flex items-center gap-2 font-mono text-xs text-ink/45 dark:text-paper/45">
+                <li><a href="/" className="hover:text-indigo dark:hover:text-mint">Home</a></li>
+                <li aria-hidden>/</li>
+                <li aria-current="page">Contact</li>
+              </ol>
+            </motion.nav>
+
+            <motion.p variants={fadeUp} className="gradient-text mt-6">
+              Contact us
+            </motion.p>
+
+            <motion.h1
+              variants={fadeUp}
+              className="mt-4 font-display text-[40px] font-medium leading-[1.05] tracking-tight sm:text-[52px] md:text-[64px]"
             >
-              <Mail size={14} />
-              Let&apos;s Talk
-            </div>
+              Let&apos;s build your <span className="gradient-text">website or app.</span>
+            </motion.h1>
 
-            <h2
-              className="text-4xl md:text-6xl font-bold text-white mb-6"
-              style={{ fontFamily: "Syne, sans-serif", letterSpacing: "-0.02em" }}
-            >
-              Start Your Project 
-              <br />
-              <span className="gradient-text">With Us</span>
-            </h2>
-
-            <p className="text-white/50 text-lg leading-relaxed mb-10 max-w-md">
-              Have an idea? we&apos;ll help you turn it into a modern website or mobile app. Get a clear plan and proposal within 24 hours.
-            </p>
-
-            
-
-            <div className="flex flex-col gap-5">
-              {perks.map(({ icon: Icon, text }) => (
-                <div key={text} className="flex items-center gap-4">
-                  <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
-                    style={{ background: "rgba(59,130,246,0.1)", border: "1px solid rgba(59,130,246,0.2)" }}
-                  >
-                    <Icon size={18} color="#60A5FA" />
-                  </div>
-                  <span className="text-white/60 text-sm">{text}</span>
-                </div>
-              ))}
-            </div>
-
-            {/* Email direct */}
-            <div className="mt-10 flex items-center gap-3">
-              <div className="h-px flex-1 bg-white/10" />
-              <span className="text-white/30 text-xs">or email us directly</span>
-              <div className="h-px flex-1 bg-white/10" />
-            </div>
-            <a
-              href="mailto:pixelpytech@gmail.com"
-              className="mt-4 block text-center text-blue-400 hover:text-blue-300 transition-colors font-medium"
-            >
-              pixelpytech@gmail.com
-              
-            </a>
-              <a
-              href="mailto:info@pixelpytech.com"
-              className="mt-4 block text-center text-blue-400 hover:text-blue-300 transition-colors font-medium"
-            >
-              info@pixelpytech.com 
-            </a>
-
-             <div className="mt-10 flex items-center gap-3">
-              <div className="h-px flex-1 bg-white/10" />
-              <span className="text-white/30 text-xs">or call us directly</span>
-              <div className="h-px flex-1 bg-white/10" />
-            </div>
-                <a
-                  href="tel:9779869991666"
-                  className="mt-4 block text-center text-blue-400 hover:text-blue-300 transition-colors font-medium"
-                >
-                  9869991666
-                </a>
-
+            {/* answer-first paragraph: the passage AI engines quote */}
+            <motion.p variants={fadeUp} className="mt-6 text-base leading-relaxed text-ink/65 md:text-lg dark:text-paper/65">
+              Contact PixelPy Tech to start a website, web application or mobile app project. Send
+              us your idea by form, email or WhatsApp and we will reply {CONTACT.responseTime} with
+              a clear scope and estimate.
+            </motion.p>
           </motion.div>
 
-          {/* Right: Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <div
-              className="rounded-3xl p-5 md:p-10"
-              style={{
-                background: "rgba(255,255,255,0.02)",
-                border: "1px solid rgba(255,255,255,0.08)",
-              }}
-            >
-              {submitted ? (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="flex flex-col items-center text-center py-10 gap-6"
-                >
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
-                  >
-                    <CheckCircle size={64} color="#22C55E" />
-                  </motion.div>
-                  <div>
-                    <h3
-                      className="text-2xl font-bold text-white mb-2"
-                      style={{ fontFamily: "Syne, sans-serif" }}
-                    >
-                      Message Received!
-                    </h3>
-                    <p className="text-white/50">
-                      We&apos;ll be in touch within 24 hours with next steps.
-                    </p>
-                  </div>
-                </motion.div>
-              ) : (
-                <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-                  <h3
-                    className="text-2xl font-bold text-white mb-2"
-                    style={{ fontFamily: "Syne, sans-serif" }}
-                  >
-                    Tell Us About Your Project
-                  </h3>
+          <div className="mt-12 grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:gap-14">
+            {/* contact methods */}
+            <motion.ul variants={container} {...inView} className="space-y-4">
+              <motion.li variants={card} whileHover="hover">
+                <a href={`mailto:${CONTACT.email}`} className={cardClass}>
+                  <span className={iconBox}><Mail size={20} aria-hidden className="text-indigo dark:text-purple-500" /></span>
+                  <span className="min-w-0">
+                    <span className="block font-mono text-xs text-ink/45 dark:text-paper/45">Email</span>
+                    <span className="block truncate font-display text-base font-medium">{CONTACT.email}</span>
+                  </span>
+                  <ArrowUpRight size={18} aria-hidden className="ml-auto shrink-0 text-ink/30 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1 dark:text-paper/30" />
+                </a>
+              </motion.li>
 
-                  {/* Name + Email row */}
-                  <div className="grid sm:grid-cols-2 gap-5">
-                    {[
-                      { label: "Your Name", key: "name", type: "text", placeholder: "Jane Smith" },
-                      { label: "Email Address", key: "email", type: "email", placeholder: "jane@company.com" },
-                      { label: "Phone Number", key: "phone", type: "number", placeholder: "+977987654421" },
-                      
-                    ].map(({ label, key, type, placeholder }) => (
-                      <div key={key}>
-                        <label className="block text-xs text-white/40 mb-2 font-medium uppercase tracking-wider">
-                          {label}
-                        </label>
-                        <input
-                          type={type}
-                          placeholder={placeholder}
-                          required
-                          value={form[key as keyof typeof form]}
-                          onChange={(e) => setForm({ ...form, [key]: e.target.value })}
-                          className="w-full px-4 py-3.5 rounded-xl text-sm text-white placeholder-white/20 outline-none transition-all duration-200"
-                          style={{
-                            background: "rgba(255,255,255,0.04)",
-                            border: "1px solid rgba(255,255,255,0.08)",
-                          }}
-                          onFocus={(e) => {
-                            e.target.style.border = "1px solid rgba(59,130,246,0.5)";
-                            e.target.style.boxShadow = "0 0 0 3px rgba(59,130,246,0.1)";
-                          }}
-                          onBlur={(e) => {
-                            e.target.style.border = "1px solid rgba(255,255,255,0.08)";
-                            e.target.style.boxShadow = "none";
-                          }}
-                        />
-                      </div>
-                    ))}
-                     <div>
-                    <label className="block text-xs text-white/40 mb-2 font-medium uppercase tracking-wider">
-                      What do you need?
-                    </label>
-                    <select
-                      value={form.budget}
-                      onChange={(e) => setForm({ ...form, budget: e.target.value })}
-                      required
-                      className="w-full px-4 py-3.5 rounded-xl text-sm text-white outline-none transition-all duration-200"
-                      style={{
-                        background: "rgba(255,255,255,0.04)",
-                        border: "1px solid rgba(255,255,255,0.08)",
-                        color: form.budget ? "white" : "rgba(255,255,255,0.2)",
-                      }}
-                    >
-                      <option value="" disabled style={{ background: "#0A0A12" }}>Select Your Need </option>
-                      <option value="5-10k" style={{ background: "#0A0A12" }}>Website Development</option>
-                      <option value="10-25k" style={{ background: "#0A0A12" }}>Mobile App Development</option>
-                      <option value="25-50k" style={{ background: "#0A0A12" }}>UI/UX Design</option>
-                      <option value="50k+" style={{ background: "#0A0A12" }}>Full Digital Solution</option>
-                      <option value="50k+" style={{ background: "#0A0A12" }}>Not Sure</option>
-                    </select>
-                  </div>
-                  </div>
+              <motion.li variants={card} whileHover="hover">
+                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className={cardClass}>
+                  <span className={iconBox}><WhatsAppIcon size={20} className="text-[#25D366]" /></span>
+                  <span className="min-w-0">
+                    <span className="block font-mono text-xs text-ink/45 dark:text-paper/45">WhatsApp</span>
+                    <span className="block font-display text-base font-medium">Chat with us</span>
+                  </span>
+                  <ArrowUpRight size={18} aria-hidden className="ml-auto shrink-0 text-ink/30 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1 dark:text-paper/30" />
+                </a>
+              </motion.li>
 
-                  {/* Project description */}
-                  <div>
-                    <label className="block text-xs text-white/40 mb-2 font-medium uppercase tracking-wider">
-                      Project Description
-                    </label>
-                    <textarea
-                      placeholder="Tell us what you're building — what problem it solves, your timeline, and any tech preferences..."
-                      rows={4}
-                      required
-                      value={form.project}
-                      onChange={(e) => setForm({ ...form, project: e.target.value })}
-                      className="w-full px-4 py-3.5 rounded-xl text-sm text-white placeholder-white/20 outline-none transition-all duration-200 resize-none"
-                      style={{
-                        background: "rgba(255,255,255,0.04)",
-                        border: "1px solid rgba(255,255,255,0.08)",
-                      }}
-                      onFocus={(e) => {
-                        e.target.style.border = "1px solid rgba(59,130,246,0.5)";
-                        e.target.style.boxShadow = "0 0 0 3px rgba(59,130,246,0.1)";
-                      }}
-                      onBlur={(e) => {
-                        e.target.style.border = "1px solid rgba(255,255,255,0.08)";
-                        e.target.style.boxShadow = "none";
-                      }}
-                    />
-                  </div>
+              <motion.li variants={card} className={cardClass.replace("group ", "")}>
+                <span className={iconBox}><Clock size={20} aria-hidden className="text-indigo dark:text-purple-500" /></span>
+                <span>
+                  <span className="block font-mono text-xs text-ink/45 dark:text-paper/45">Response time</span>
+                  <span className="block font-display text-base font-medium capitalize-first">Within 24 hours</span>
+                </span>
+              </motion.li>
+            </motion.ul>
 
-                  {/* Budget */}
-                  <div>
-                    <label className="block text-xs text-white/40 mb-2 font-medium uppercase tracking-wider">
-                      Budget Range
-                    </label>
-                    <select
-                      value={form.budget}
-                      onChange={(e) => setForm({ ...form, budget: e.target.value })}
-                      required
-                      className="w-full px-4 py-3.5 rounded-xl text-sm text-white outline-none transition-all duration-200"
-                      style={{
-                        background: "rgba(255,255,255,0.04)",
-                        border: "1px solid rgba(255,255,255,0.08)",
-                        color: form.budget ? "white" : "rgba(255,255,255,0.2)",
-                      }}
-                    >
-                      <option value="" disabled style={{ background: "#0A0A12" }}>Select budget range</option>
-                      <option value="5-10k" style={{ background: "#0A0A12" }}>Below NPR 20,000</option>
-                      <option value="10-25k" style={{ background: "#0A0A12" }}>NPR 20,000 - 40,000</option>
-                      <option value="25-50k" style={{ background: "#0A0A12" }}>Above NPR 40,000 </option>
-                      <option value="50k+" style={{ background: "#0A0A12" }}>Not sure / Need consultation+</option>
-                    </select>
-                  </div>
-                      <p className=" text-center text-gray-700">We usually reply within a few hours during working days.</p>
-                  <motion.button
-                    type="submit"
-                    disabled={loading}
-                    className="w-full flex items-center justify-center gap-3 py-4 rounded-2xl text-base font-semibold text-white transition-all duration-300 disabled:opacity-70"
-                    style={{ background: "linear-gradient(135deg, #3B82F6, #A855F7)" }}
-                    whileHover={{ scale: 1.02, boxShadow: "0 0 40px rgba(168,85,247,0.4)" }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    {loading ? (
-                      <>
-                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                        Sending...
-                      </>
-                    ) : (
-                      <>
-                        Send Message <Send size={18} />
-                      </>
-                    )}
-                  </motion.button>
-                </form>
-              )}
-            </div>
+            <ContactForm />
+          </div>
+        </div>
+      </section>
+
+      {/* ===== WHAT HAPPENS NEXT ===== */}
+      <section aria-labelledby="next-heading" className="bg-paper-soft py-16 md:py-28 lg:px-20 dark:bg-ink-soft">
+        <div className="container-px grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
+          <motion.div variants={container} {...inView} className="max-w-xl">
+            <motion.p variants={fadeUp} className="gradient-text">What happens next</motion.p>
+            <motion.h2 id="next-heading" variants={fadeUp} className="mt-4 font-display text-3xl font-medium tracking-tight md:text-4xl">
+              From message to scope in four steps.
+            </motion.h2>
+            <motion.span aria-hidden variants={underline} style={{ originX: 0 }} className="mt-5 block h-[3px] w-20 rounded-full bg-gradient-to-r from-blue-500 to-purple-500" />
+          </motion.div>
+
+          <motion.ol variants={container} {...inView} className="relative space-y-8 pl-8">
+            <motion.span aria-hidden variants={lineY} style={{ originY: 0 }} className="absolute left-0 top-1 h-full w-px bg-ink-line/20 dark:bg-paper-line/20" />
+            {STEPS.map((s, i) => (
+              <motion.li key={s.title} variants={fadeUp} className="relative">
+                <span className="absolute left-0 top-1.5 -translate-x-1/2">
+                  <span className="block h-2.5 w-2.5 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 shadow-[0_0_12px_rgba(139,92,246,0.6)]" />
+                </span>
+                <span className="gradient-text font-mono text-xs dark:text-mint">0{i + 1}</span>
+                <h3 className="mt-1 font-display text-lg font-medium">{s.title}</h3>
+                <p className="mt-1 text-sm text-ink/65 md:text-base dark:text-paper/65">{s.desc}</p>
+              </motion.li>
+            ))}
+          </motion.ol>
+        </div>
+      </section>
+
+      {/* ===== FAQ ===== */}
+      <section aria-labelledby="faq-heading" className="py-16 md:py-28 lg:px-20">
+        <div className="container-px grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
+          <motion.div variants={container} {...inView} className="max-w-xl">
+            <motion.p variants={fadeUp} className="gradient-text">FAQ</motion.p>
+            <motion.h2 id="faq-heading" variants={fadeUp} className="mt-4 font-display text-3xl font-medium tracking-tight md:text-4xl">
+              Before you get in touch.
+            </motion.h2>
+            <motion.span aria-hidden variants={underline} style={{ originX: 0 }} className="mt-5 block h-[3px] w-20 rounded-full bg-gradient-to-r from-blue-500 to-purple-500" />
+          </motion.div>
+
+          {/* <details> keeps every answer in the HTML even when collapsed */}
+          <motion.div variants={container} {...inView} className="space-y-3">
+            {CONTACT_FAQS.map((f) => (
+              <motion.details
+                key={f.q}
+                variants={fadeUp}
+                className="group rounded-xl border border-ink-line/10 bg-paper px-5 py-4 open:border-purple-500/40 dark:border-paper-line/10 dark:bg-ink"
+              >
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 [&::-webkit-details-marker]:hidden">
+                  <h3 className="font-display text-base font-medium">{f.q}</h3>
+                  <ChevronDown size={18} aria-hidden className="shrink-0 text-ink/40 transition-transform duration-300 group-open:rotate-180 dark:text-paper/40" />
+                </summary>
+                <p className="mt-3 text-sm leading-relaxed text-ink/65 dark:text-paper/65">{f.a}</p>
+              </motion.details>
+            ))}
           </motion.div>
         </div>
-      </div>
-    </section>
+      </section>
+    </main>
   );
 }

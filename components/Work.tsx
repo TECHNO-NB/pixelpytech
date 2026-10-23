@@ -1,202 +1,285 @@
 "use client";
-import { motion } from "framer-motion";
-import { ArrowUpRight, Globe, Smartphone } from "lucide-react";
-import dunaiboarding from "@/public/dunaiboardingschoolpic.png"
-import mithilatech from "@/public/mithilatech.jpg"
-import subbacleaner from "@/public/subbacleaner.jpg"
-import sajilodrainage from "@/public/sajilodrainage.jpg"
+
 import Image from "next/image";
+import { motion, type Variants } from "framer-motion";
+import { ArrowUpRight } from "lucide-react";
+import { SITE } from "@/lib/about-data";
+import dunaiboardingimg from "@/public/dunaiboardingwebimg.jpg";
+import prakashkoiralaimg from "@/public/prakashkoiralaweb.jpg";
+import yatrabusimg from "@/public/yatrabusmobileimg.webp";
+import plusbookimg from "@/public/plusbookmobileimg.jpg";
 
 const projects = [
   {
-    title: "Dunai Boarding School",
-    img:dunaiboarding,
-    category: "Web App",
-    description: "A modern fintech dashboard with real-time analytics, AI-powered insights, and multi-currency support for global payments.",
-    icon: Globe,
-    tags: ["Next.js", "TypeScript", "Express js", "MySql"],
-    gradient: "from-blue-600 to-blue-900",
-    link:"https://dunaiboardingschool.com",
-    accent: "#3B82F6",
+    name: "YatraBus",
+    type: "Web · Mobile",
     year: "2026",
-    mockBg: "#0D1B3E",
-    shapes: [
-      { type: "rect", x: 20, y: 60, w: 55, h: 8, color: "rgba(59,130,246,0.3)" },
-      { type: "rect", x: 20, y: 75, w: 35, h: 8, color: "rgba(59,130,246,0.15)" },
-      { type: "bar", x: 20, y: 100, bars: [40, 60, 45, 80, 65, 90, 55], color: "#3B82F6" },
-    ],
+    blurb: "Bus and Hiace ticket booking app.",
+    color: "from-indigo/25 to-indigo/5",
+    image: yatrabusimg,
+    href: "https://play.google.com/store/apps/details?id=com.yatrabus.app",
   },
   {
-    title: "Subba Cleaner",
-    img:subbacleaner,
-    category: "Web App",
-    description: "A modern home cleaning website designed for online booking, service management, and customer convenience.",
-    icon: Globe,
-    tags: ["React js", "Express Js", "Vercel", "Mysql"],
-    gradient: "from-purple-600 to-purple-900",
-    accent: "#A855F7",
-    year: "2025",
-    mockBg: "#1A0D3E",
-    shapes: [],
+    name: "PlusBook",
+    type: "Web · Mobile",
+    year: "2026",
+    blurb: "Online learning, chat and social sharing app.",
+    color: "from-indigo/25 to-indigo/5",
+    image: plusbookimg,
+    href: "https://play.google.com/store/apps/details?id=com.plusbook.app",
   },
   {
-   
-    title: "Sajilo Drainage",
-    img:sajilodrainage,
-    category: "Web App",
-    description: "A drainage service website built for easy service requests, customer communication, and business growth.",
-    icon: Globe,
-    tags: ["Next.js", "Express.js", "Three.js", "Vercel"],
-    gradient: "from-indigo-600 to-blue-900",
-    accent: "#818CF8",
-    year: "2023",
-    mockBg: "#0D1230",
-    shapes: [],
+    name: "Prakash Koirala Portfolio",
+    type: "Web",
+    year: "2026",
+    blurb: "Modern personal portfolio website.",
+    color: "from-mint/25 to-mint/5",
+    image: prakashkoiralaimg,
+    href: "https://prakashkoirala.com",
+  },
+  {
+    name: "Dunai Boarding School",
+    type: "Web",
+    year: "2026",
+    blurb: "Official school website.",
+    color: "from-indigo/20 to-mint/10",
+    image: dunaiboardingimg,
+    href: "https://dunaiboardingschool.com",
   },
 ];
 
-function ProjectCard({ project, index }: { project: (typeof projects)[0]; index: number }) {
-  const Icon = project.icon;
 
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "@id": `${SITE.url}/projects`,
+  name: "Recent website and mobile app projects by PixelPy Tech",
+  itemListElement: projects.map((p, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    item: {
+      "@type": "CreativeWork",
+      name: p.name,
+      description: `${p.blurb} ${p.type.replace(" · ", " and ")} project.`,
+      url: p.href,
+      image: `${SITE.url}${p.image.src}`,
+      dateCreated: p.year,
+      creator: { "@id": `${SITE.url}/#organization` },
+    },
+  })),
+};
+
+/* ---------- variants ---------- */
+
+const headerContainer: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.12 } },
+};
+
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+const listContainer: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.15, delayChildren: 0.1 } },
+};
+
+const rowVariants: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+// border line draws in from the left
+const lineVariants: Variants = {
+  hidden: { scaleX: 0 },
+  show: { scaleX: 1, transition: { duration: 0.9, ease: "easeOut" } },
+};
+
+// background sweep on hover
+const sweepVariants: Variants = {
+  hover: { scaleX: 1, transition: { duration: 0.4, ease: "easeOut" } },
+};
+
+const thumbVariants: Variants = {
+  hover: {
+    scale: 1.1,
+    rotate: -4,
+    transition: { type: "spring", stiffness: 300, damping: 15 },
+  },
+};
+
+const titleVariants: Variants = {
+  hover: { x: 8, transition: { type: "spring", stiffness: 300, damping: 20 } },
+};
+
+const arrowVariants: Variants = {
+  hover: {
+    x: 4,
+    y: -4,
+    scale: 1.15,
+    transition: { type: "spring", stiffness: 400, damping: 15 },
+  },
+};
+
+/* ---------- section ---------- */
+
+export function Work() {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.7, delay: index * 0.15, ease: [0.22, 1, 0.36, 1] }}
-      className="group relative rounded-3xl overflow-hidden cursor-pointer"
-      style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
-      whileHover={{ y: -4 }}
+    <section
+      id="work"
+      aria-labelledby="work-heading"
+      className="relative overflow-hidden bg-paper-soft py-16 md:py-32 lg:px-20 dark:bg-ink-soft"
     >
-      {/* Visual Top */}
-      <div
-        className="relative h-70 overflow-hidden"
-        style={{ background: project.mockBg }}
-      >
-      
-        <Image src={project.img}  alt="Image of previous Project" className=" w-full h-full object-contain"/>
-
-        {/* Glowing orb */}
-        <div
-          className="absolute -top-10 -right-10 w-40 h-40 rounded-full opacity-40"
-          style={{ background: `radial-gradient(circle, ${project.accent}60 0%, transparent 70%)` }}
-        />
-
-        {/* Mock UI */}
-        
-
-        {/* Type badge */}
-        <div
-          className="absolute top-4 left-4 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold"
-          style={{
-            background: `${project.accent}20`,
-            border: `1px solid ${project.accent}40`,
-            color: project.accent,
-          }}
-        >
-          <Icon size={12} />
-          {project.category}
-        </div>
-
-      
-      </div>
-
-      {/* Content */}
-      <div className="p-8">
-        <div className="flex items-start justify-between mb-3">
-          <h3
-            className="text-2xl font-bold text-white"
-            style={{ fontFamily: "Syne, sans-serif" }}
-          >
-          <a href={project.link} > {project.title} </a>
-          </h3>
-          <motion.div
-            className="w-9 h-9 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-            style={{ background: `${project.accent}20`, border: `1px solid ${project.accent}30` }}
-            whileHover={{ scale: 1.1, rotate: 45 }}
-          >
-           <a href={project.link} ><ArrowUpRight size={16} color={project.accent} /></a> 
-          </motion.div>
-        </div>
-
-        <p className="text-white/50 text-sm leading-relaxed mb-6">{project.description}</p>
-
-        <div className="flex flex-wrap gap-2">
-          {project.tags.map((tag) => (
-            <span
-              key={tag}
-              className="px-3 py-1 rounded-full text-xs text-white/50"
-              style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
-export default function Work() {
-  return (
-    <section id="work" className="relative py-16 px-6">
-      <div
-        className="absolute top-0 right-0 w-150 h-150 pointer-events-none opacity-30"
-        style={{ background: "radial-gradient(circle at 100% 50%, rgba(168,85,247,0.08) 0%, transparent 60%)" }}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+        }}
       />
 
-      <div className="max-w-7xl mx-auto">
+      {/* floating glow */}
+      <motion.div
+        aria-hidden
+        animate={{ y: [0, 24, 0], opacity: [0.3, 0.5, 0.3] }}
+        transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+        className="pointer-events-none absolute -left-24 top-10 h-64 w-64 rounded-full bg-blue-500/20 blur-3xl"
+      />
+
+      <div className="container-px relative">
+        {/* header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="text-center mb-20"
+          variants={headerContainer}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.4 }}
+          className="max-w-xl"
         >
-          <div
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium mb-6"
-            style={{
-              background: "rgba(168,85,247,0.1)",
-              border: "1px solid rgba(168,85,247,0.3)",
-              color: "#C084FC",
-            }}
+          <motion.p variants={fadeUp} className="gradient-text">
+            Selected work
+          </motion.p>
+          <motion.h2
+            id="work-heading"
+            variants={fadeUp}
+            className="mt-4 font-display text-3xl font-medium tracking-tight md:text-4xl"
           >
-            Our Work
-          </div>
-          <h2
-            className="text-4xl md:text-6xl font-bold text-white mb-6"
-            style={{ fontFamily: "Syne, sans-serif", letterSpacing: "-0.02em" }}
-          >
-            Websites & Apps 
-            <br />
-            <span className="gradient-text">We've Created </span>
-          </h2>
-          <p className="text-white/50 text-lg max-w-xl mx-auto">
-            Explore some of the modern websites and digital solutions we've built for businesses and organizations.
-          </p>
+            Recent launches.
+          </motion.h2>
+          <motion.span
+            aria-hidden
+            variants={lineVariants}
+            style={{ originX: 0 }}
+            className="mt-5 block h-[3px] w-20 rounded-full bg-gradient-to-r from-blue-500 to-purple-500"
+          />
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project, i) => (
-            <ProjectCard key={project.title} project={project} index={i} />
-          ))}
-        </div>
-
+        {/* list */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="text-center mt-16"
+          variants={listContainer}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+          className="mt-10 md:mt-16"
         >
-          <motion.a
-            href="#contact"
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl text-base font-semibold text-white/70 hover:text-white transition-all duration-300"
-            style={{ border: "1px solid rgba(255,255,255,0.1)" }}
-            whileHover={{ scale: 1.03, background: "rgba(255,255,255,0.04)" }}
-          >
-            View All Projects <ArrowUpRight size={18} />
-          </motion.a>
+          <ul className="flex flex-col">
+            {projects.map((p, i) => (
+              <motion.li
+                key={p.name}
+                variants={rowVariants}
+                whileHover="hover"
+                className="relative"
+              >
+                <a
+                  href={p.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${p.name}: ${p.blurb} (${p.type} project, opens in a new tab)`}
+                  className="group relative grid grid-cols-[auto_1fr_auto] items-center gap-x-4 gap-y-3 px-2 py-6 sm:px-3 md:grid-cols-[auto_auto_1fr_auto_auto] md:gap-x-8 md:py-8"
+                >
+                  {/* top border that draws itself */}
+                  <motion.span
+                    aria-hidden
+                    variants={lineVariants}
+                    style={{ originX: 0 }}
+                    className="absolute left-0 top-0 h-px w-full bg-ink-line/15 dark:bg-paper-line/15"
+                  />
+
+                  {/* hover background sweep */}
+                  <motion.span
+                    aria-hidden
+                    variants={sweepVariants}
+                    initial={{ scaleX: 0 }}
+                    style={{ originX: 0 }}
+                    className="absolute inset-0 -z-0 bg-gradient-to-r from-blue-500/[0.07] to-purple-500/[0.04]"
+                  />
+
+                  {/* index (desktop only) */}
+                  <span
+                    aria-hidden
+                    className="relative hidden font-mono text-xs text-ink/30 md:block dark:text-paper/30"
+                  >
+                    0{i + 1}
+                  </span>
+
+                  {/* thumbnail: same box and gradient, screenshot sits inside */}
+                  <motion.div
+                    variants={thumbVariants}
+                    className={`relative h-12 w-14 shrink-0 overflow-hidden rounded-md bg-gradient-to-br sm:w-16 md:h-14 md:w-20 ${p.color}`}
+                  >
+                    <Image
+                      src={p.image}
+                      alt={`${p.name} ${p.type.replace(" · ", " and ")} project screenshot`}
+                      fill
+                      sizes="80px"
+                      className="object-cover"
+                    />
+                  </motion.div>
+
+                  {/* title + blurb */}
+                  <motion.div variants={titleVariants} className="relative min-w-0">
+                    <h3 className="font-display text-xl font-medium transition-colors group-hover:text-indigo md:text-2xl dark:group-hover:text-mint">
+                      {p.name}
+                    </h3>
+                    <p className="mt-1 text-sm text-ink/55 dark:text-paper/55">
+                      {p.blurb}
+                    </p>
+                  </motion.div>
+
+                  {/* meta */}
+                  <span className="relative order-4 col-span-3 font-mono text-xs text-ink/40 md:order-none md:col-span-1 dark:text-paper/40">
+                    {p.type} · <time dateTime={p.year}>{p.year}</time>
+                  </span>
+
+                  {/* arrow */}
+                  <motion.span
+                    aria-hidden
+                    variants={arrowVariants}
+                    className="relative justify-self-end text-ink/30 transition-colors group-hover:text-indigo dark:text-paper/30 dark:group-hover:text-mint"
+                  >
+                    <ArrowUpRight size={20} />
+                  </motion.span>
+                </a>
+              </motion.li>
+            ))}
+          </ul>
+
+          {/* closing bottom border */}
+          <motion.span
+            aria-hidden
+            variants={lineVariants}
+            style={{ originX: 0 }}
+            className="block h-px w-full bg-ink-line/15 dark:bg-paper-line/15"
+          />
         </motion.div>
       </div>
     </section>

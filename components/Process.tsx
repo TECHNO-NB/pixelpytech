@@ -1,177 +1,211 @@
 "use client";
-import { motion } from "framer-motion";
-import { MessageSquare, Paintbrush, Code2, Rocket, HeartHandshake } from "lucide-react";
+
+import { motion, type Variants } from "framer-motion";
 
 const steps = [
   {
-    number: "01",
-    icon: MessageSquare,
-    title: "Project Discussion",
-    description:"We understand your business goals, requirements, and project ideas.",
-    duration: "Day 1",
-    color: "#3B82F6",
+    n: "01",
+    title: "Discover",
+    desc: "We map the problem, the users, and what success looks like before a line of code is written.",
   },
   {
-    number: "02",
-    icon: Paintbrush,
-    title: "Design & Planning",
-    description:
-      "We create the website structure, UI design, and project planning for approval.",
-    duration: "Days 2-3",
-    color: "#A855F7",
+    n: "02",
+    title: "Design",
+    desc: "Wireframes to high-fidelity screens, tested with real users until the flow feels obvious.",
   },
   {
-    number: "03",
-    icon: Code2,
-    title: "Development",
-    description:
-      "We build fast, responsive websites and applications with modern technologies.",
-    duration: "Weeks 4-10",
-    color: "#60A5FA",
+    n: "03",
+    title: "Build",
+    desc: "Weekly demos as we ship — you see working software from week one, not month three.",
   },
   {
-    number: "04",
-    icon: Rocket,
-    title: "Testing & Review",
-    description:
-      "We test performance, responsiveness, and fix issues before launch.",
-    duration: "Week 11",
-    color: "#C084FC",
-  },
-  {
-    number: "05",
-    icon: HeartHandshake,
-    title: "Launch & Support",
-    description:"We deploy your project and provide support for a smooth launch experience.",
-    duration: "Ongoing",
-    color: "#818CF8",
+    n: "04",
+    title: "Launch & support",
+    desc: "App store submission, deployment, and a support window after launch to fix what real usage reveals.",
   },
 ];
 
-export default function Process() {
+/* ---------- variants ---------- */
+
+const headerContainer: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.12 } },
+};
+
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+const underline: Variants = {
+  hidden: { scaleX: 0 },
+  show: { scaleX: 1, transition: { duration: 0.8, ease: "easeOut" } },
+};
+
+const gridContainer: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.18, delayChildren: 0.1 } },
+};
+
+const cardVariants: Variants = {
+  hidden: { opacity: 0, y: 28 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+  },
+  hover: { y: -6, transition: { type: "spring", stiffness: 300, damping: 20 } },
+};
+
+// desktop: line draws left to right
+const lineX: Variants = {
+  hidden: { scaleX: 0 },
+  show: { scaleX: 1, transition: { duration: 0.9, ease: "easeOut" } },
+};
+
+// mobile / tablet: line draws top to bottom
+const lineY: Variants = {
+  hidden: { scaleY: 0 },
+  show: { scaleY: 1, transition: { duration: 0.9, ease: "easeOut" } },
+};
+
+const dotVariants: Variants = {
+  hidden: { scale: 0, opacity: 0 },
+  show: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      type: "spring",
+      stiffness: 400,
+      damping: 15,
+      delay: 0.3,
+    },
+  },
+  hover: { scale: 1.6 },
+};
+
+const numberVariants: Variants = {
+  hover: { x: 6, transition: { type: "spring", stiffness: 300, damping: 15 } },
+};
+
+const glowVariants: Variants = {
+  hidden: { opacity: 0 },
+  show: { opacity: 0 },
+  hover: { opacity: 1, transition: { duration: 0.3 } },
+};
+
+/* ---------- section ---------- */
+
+export function Process() {
   return (
-    <section id="process" className="relative py-2 px-6">
-      {/* bg glow */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse 80% 40% at 50% 60%, rgba(59,130,246,0.05) 0%, transparent 70%)",
-        }}
+    <section
+      id="process"
+      className="relative overflow-hidden py-16 md:py-32 lg:px-20"
+    >
+      {/* floating glow */}
+      <motion.div
+        aria-hidden
+        animate={{ y: [0, -20, 0], opacity: [0.25, 0.45, 0.25] }}
+        transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+        className="pointer-events-none absolute -right-20 top-1/4 h-64 w-64 rounded-full bg-purple-500/20 blur-3xl"
       />
 
-      <div className="max-w-7xl mx-auto">
+      <div className="container-px relative">
+        {/* header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="text-center mb-20"
+          variants={headerContainer}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.4 }}
+          className="max-w-xl"
         >
-          <div
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium mb-6"
-            style={{
-              background: "rgba(59,130,246,0.1)",
-              border: "1px solid rgba(59,130,246,0.3)",
-              color: "#60A5FA",
-            }}
+          <motion.p variants={fadeUp} className="gradient-text">
+            How we work
+          </motion.p>
+          <motion.h2
+            variants={fadeUp}
+            className="mt-4 font-display text-3xl font-medium tracking-tight md:text-4xl"
           >
-            How We Work
-          </div>
-          <h2
-            className="text-4xl md:text-6xl font-bold text-white mb-6"
-            style={{ fontFamily: "Syne, sans-serif", letterSpacing: "-0.02em" }}
-          >
-            Our Development 
-            <br />
-            <span className="gradient-text">Process</span>
-          </h2>
-          <p className="text-white/50 text-lg max-w-xl mx-auto">
-           We Follow A Simple And Efficient Process To Design, Develop And Launch Modern Digital Solutions.
-          </p>
+            A process built for momentum.
+          </motion.h2>
+          <motion.span
+            aria-hidden
+            variants={underline}
+            style={{ originX: 0 }}
+            className="mt-5 block h-[3px] w-20 rounded-full bg-gradient-to-r from-blue-500 to-purple-500"
+          />
         </motion.div>
 
-        {/* Steps */}
-        <div className="relative">
-          {/* Vertical line (desktop) */}
-          <div
-            className="absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2 hidden lg:block"
-            style={{ background: "linear-gradient(to bottom, transparent, rgba(59,130,246,0.4), rgba(168,85,247,0.4), transparent)" }}
-          />
+        {/* steps */}
+        <motion.div
+          variants={gridContainer}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.15 }}
+          className="mt-12 grid grid-cols-1 gap-10 md:mt-16 md:grid-cols-2 md:gap-x-12 md:gap-y-14 lg:mt-20 lg:grid-cols-4 lg:gap-x-10 xl:gap-x-14"
+        >
+          {steps.map((s, i) => {
+            const isLast = i === steps.length - 1;
 
-          <div className="flex flex-col gap-16">
-            {steps.map((step, i) => {
-              const Icon = step.icon;
-              const isLeft = i % 2 === 0;
+            return (
+              <motion.div
+                key={s.n}
+                variants={cardVariants}
+                whileHover="hover"
+                className="group relative pl-8 lg:pl-0 lg:pr-2 lg:pt-4 xl:pr-4"
+              >
+                <motion.span
+                  aria-hidden
+                  variants={lineY}
+                  style={{ originY: 0 }}
+                  className="absolute left-0 top-0 h-full w-px bg-ink-line/15 lg:hidden dark:bg-paper-line/15"
+                />
 
-              return (
-                <motion.div
-                  key={step.number}
-                  initial={{ opacity: 0, x: isLeft ? -40 : 40 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: "-60px" }}
-                  transition={{ duration: 0.7, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                  className={`relative flex items-center gap-8 ${
-                    isLeft ? "lg:flex-row" : "lg:flex-row-reverse"
-                  } flex-col`}
+                <motion.span
+                  aria-hidden
+                  variants={lineX}
+                  style={{ originX: 0 }}
+                  className={`absolute left-0 top-0 hidden h-px bg-ink-line/15 lg:block dark:bg-paper-line/15 ${
+                    isLast
+                      ? "w-full"
+                      : "lg:w-[calc(100%+2.5rem)] xl:w-[calc(100%+3.5rem)]"
+                  }`}
+                />
+
+                <span className="absolute left-0 top-1.5 -translate-x-1/2 lg:top-0 lg:-translate-y-1/2 lg:translate-x-0">
+                  <motion.span
+                    variants={dotVariants}
+                    className="block h-2.5 w-2.5 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 shadow-[0_0_12px_rgba(139,92,246,0.6)]"
+                  />
+                </span>
+
+                {/* hover glow */}
+                <motion.span
+                  aria-hidden
+                  variants={glowVariants}
+                  className="pointer-events-none absolute -inset-3 -z-0 rounded-2xl bg-gradient-to-br from-blue-500/[0.07] to-purple-500/[0.05]"
+                />
+
+                <motion.span
+                  variants={numberVariants}
+                  className="gradient-text relative inline-block font-mono text-xs dark:text-mint"
                 >
-                  {/* Content */}
-                  <div className="flex-1 lg:max-w-sm">
-                    <div
-                      className="rounded-3xl p-8 group hover:border-opacity-30 transition-all duration-500"
-                      style={{
-                        background: "rgba(255,255,255,0.02)",
-                        border: "1px solid rgba(255,255,255,0.06)",
-                      }}
-                    >
-                      <div className="flex items-center gap-4 mb-5">
-                        <div
-                          className="w-12 h-12 rounded-2xl flex items-center justify-center"
-                          style={{
-                            background: `${step.color}15`,
-                            border: `1px solid ${step.color}30`,
-                          }}
-                        >
-                          <Icon size={22} color={step.color} />
-                        </div>
-                        <div>
-                        
-                        </div>
-                      </div>
-                      <h3
-                        className="text-xl font-bold text-white mb-3"
-                        style={{ fontFamily: "Syne, sans-serif" }}
-                      >
-                        {step.title}
-                      </h3>
-                      <p className="text-white/50 text-sm leading-relaxed">{step.description}</p>
-                    </div>
-                  </div>
-
-                  {/* Center Node */}
-                  <div className="relative z-10 flex-shrink-0">
-                    <motion.div
-                      className="w-16 h-16 rounded-2xl flex items-center justify-center font-bold text-lg"
-                      style={{
-                        background: `linear-gradient(135deg, ${step.color}30, ${step.color}10)`,
-                        border: `2px solid ${step.color}50`,
-                        fontFamily: "Syne, sans-serif",
-                        color: step.color,
-                        boxShadow: `0 0 30px ${step.color}20`,
-                      }}
-                      whileHover={{ scale: 1.1, boxShadow: `0 0 40px ${step.color}40` }}
-                    >
-                      {step.number}
-                    </motion.div>
-                  </div>
-
-                  {/* Empty right/left side */}
-                  <div className="flex-1 hidden lg:block" />
-                </motion.div>
-              );
-            })}
-          </div>
-        </div>
+                  {s.n}
+                </motion.span>
+                <h3 className="relative mt-3 font-display text-lg font-medium">
+                  {s.title}
+                </h3>
+                <p className="relative mt-2 text-sm leading-relaxed text-ink/60 dark:text-paper/60">
+                  {s.desc}
+                </p>
+              </motion.div>
+            );
+          })}
+        </motion.div>
       </div>
     </section>
   );

@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PixelPy Tech
 
-## Getting Started
+Modern, animated marketing site for a web & mobile app development studio.
 
-First, run the development server:
+## Stack
+- Next.js 14 (App Router) + TypeScript
+- Tailwind CSS (custom design tokens: `ink` dark palette, `paper` light palette, `indigo` / `mint` accents)
+- Framer Motion (orchestrated hero entrance + scroll-triggered reveals)
+- `react-type-animation` (terminal-style typing effect in the hero mockup)
+- lucide-react (icons)
+- next-themes (dark/light mode, respects system preference, no flash on load)
+
+## Getting started
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+app/
+  layout.tsx      -> fonts, theme provider, metadata
+  page.tsx         -> composes all sections
+  globals.css       -> design tokens, base styles, reduced-motion support
+components/
+  navbar.tsx        -> sticky nav, mobile menu, theme toggle
+  hero.tsx          -> headline, CTA, animated browser + phone mockup
+  services.tsx      -> 4-up service grid
+  work.tsx          -> selected project list
+  process.tsx       -> 4-step process (a real sequence, hence numbered)
+  cta.tsx            -> contact block
+  footer.tsx
+  theme-toggle.tsx
+  theme-provider.tsx
+lib/utils.ts        -> `cn()` classname helper
+```
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Notes
+- Dark mode is the default theme; toggle in the navbar switches to light and persists via `next-themes`.
+- Motion respects `prefers-reduced-motion` (see `globals.css`).
+- Swap the placeholder project data in `components/work.tsx` and the email in `components/cta.tsx` with real details before shipping.

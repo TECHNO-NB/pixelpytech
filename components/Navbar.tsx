@@ -1,125 +1,130 @@
 "use client";
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Code2, Menu, X } from "lucide-react";
+
+import * as React from "react";
+import Link from "next/link";
 import Image from "next/image";
-import logo from "@/public/logo.png"
+import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X, ArrowUpRight } from "lucide-react";
+import { ThemeToggle } from "@/components/theme-toggle";
+import logo from "@/public/logo.png";
 
-const links = ["Services", "Work", "Process", "Tech", "Testimonials", "Contact"];
+const links = [
+  { label: "Projects", href: "/projects" },
+  { label: "Services", href: "/services" },
+  { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
+];
 
-export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-  const [open, setOpen] = useState(false);
+export function Navbar() {
+  const [open, setOpen] = React.useState(false);
+  const [scrolled, setScrolled] = React.useState(false);
 
-  useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 30);
-    window.addEventListener("scroll", handler);
-    return () => window.removeEventListener("scroll", handler);
+  React.useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 12);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
-    <motion.nav
-      initial={{ y: -80, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-      className="fixed top-0 left-0 right-0 z-50 max-w-screen"
+    <header
+      className={`fixed lg:px-20 top-0 z-50 w-full transition-all duration-300 ${
+        scrolled
+          ? "backdrop-blur-md bg-paper/80 dark:bg-ink/80 border-b border-ink-line/10 dark:border-paper-line/10"
+          : "bg-transparent"
+      }`}
     >
-      <div
-        className="max-w-7xl mx-auto flex items-center justify-between rounded-2xl px-6 py-3 transition-all duration-500"
-        style={{
-          background: scrolled ? "rgba(5,5,8,0.85)" : "transparent",
-          backdropFilter: scrolled ? "blur(20px)" : "none",
-          border: scrolled ? "1px solid rgba(255,255,255,0.06)" : "1px solid transparent",
-        }}
+      <nav
+        className="container-px flex h-16 items-center justify-between"
+        aria-label="Main Navigation"
       >
-        {/* Logo */}
-        <motion.div className="flex items-center gap-0" whileHover={{ scale: 1.03 }}>
-          <div
-            className="w-9 h-9 rounded-xl flex items-center justify-center "
-           
-          >
-            <Image src={logo} alt="PixelPy Logo" height={50} width={50} className=" rounded-md" />
-          </div>
-          <span className="text-white font-bold text-lg" style={{ fontFamily: "Syne, sans-serif" }}>
-            Pixelpy<span className="gradient-text">Tech</span>
+        <Link
+          href="/"
+          className="flex items-center gap-2"
+          title="PixelPy Tech - Home"
+        >
+          <Image
+            src={logo}
+            alt="PixelPy Tech - Web & Mobile App Development Company in Nepal"
+            className="h-8 w-8 rounded-lg"
+            priority
+          />
+          <span className="font-display text-[17px] font-medium tracking-tight">
+            PixelPy<span className="text-indigo dark:text-mint">.</span>Tech
           </span>
-        </motion.div>
+        </Link>
 
-        {/* Desktop Links */}
         <div className="hidden md:flex items-center gap-8">
-          {links.map((link) => (
-            <motion.a
-              key={link}
-              href={`#${link.toLowerCase()}`}
-              className="text-sm text-white/60 hover:text-white transition-colors duration-200"
-              whileHover={{ y: -1 }}
+          {links.map((l) => (
+            <Link
+              key={l.href}
+              href={l.href}
+              className="font-body text-sm text-ink/70 dark:text-paper/70 hover:text-ink dark:hover:text-paper transition-colors"
             >
-              {link}
-            </motion.a>
+              {l.label}
+            </Link>
           ))}
         </div>
 
-        {/* CTA */}
-        <motion.a
-          href="#contact"
-          className="hidden md:flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-all duration-300"
-          style={{ background: "linear-gradient(135deg, #3B82F6, #A855F7)" }}
-          whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(168,85,247,0.4)" }}
-          whileTap={{ scale: 0.97 }}
-        >
-          Get Started
-        </motion.a>
+        <div className="hidden md:flex items-center gap-4">
+          <ThemeToggle />
+          <Link
+            href="/contact"
+            className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:bg-indigo-bright hover:brightness-90 transition-colors px-4 py-2 text-sm font-medium hover:opacity-90"
+            title="Start a web or mobile app development project with PixelPy Tech"
+          >
+            Start a project
+            <ArrowUpRight
+              size={15}
+              className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            />
+          </Link>
+        </div>
 
-        {/* Mobile Menu Toggle */}
-        <button
-          className="md:hidden text-white/70 hover:text-white transition-colors"
-          onClick={() => setOpen(!open)}
-        >
-          {open ? <X size={22} /> : <Menu size={22} />}
-        </button>
-      </div>
+        <div className="flex items-center gap-3 md:hidden">
+          <ThemeToggle />
+          <button
+            aria-label="Toggle Navigation Menu"
+            onClick={() => setOpen((v) => !v)}
+            className="flex h-9 w-9 items-center justify-center"
+          >
+            {open ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </div>
+      </nav>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-            className="md:hidden mt-3 rounded-2xl overflow-hidden"
-            style={{
-              background: "rgba(10,10,18,0.95)",
-              border: "1px solid rgba(255,255,255,0.08)",
-              backdropFilter: "blur(20px)",
-            }}
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: "easeInOut" }}
+            className="md:hidden overflow-hidden border-t border-ink-line/10 dark:border-paper-line/10 bg-paper dark:bg-ink"
           >
-            <div className="flex flex-col p-4 gap-1">
-              {links.map((link, i) => (
-                <motion.a
-                  key={link}
-                  href={`#${link.toLowerCase()}`}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.05 }}
-                  className="px-4 py-3 rounded-xl text-white/70 hover:text-white hover:bg-white/5 transition-all duration-200 text-sm font-medium"
+            <div className="container-px flex flex-col gap-4 py-6">
+              {links.map((l) => (
+                <Link
+                  key={l.href}
+                  href={l.href}
                   onClick={() => setOpen(false)}
+                  className="font-body text-base"
                 >
-                  {link}
-                </motion.a>
+                  {l.label}
+                </Link>
               ))}
-              <a
-                href="#contact"
-                className="mt-2 px-4 py-3 rounded-xl text-center text-sm font-semibold text-white"
-                style={{ background: "linear-gradient(135deg, #3B82F6, #A855F7)" }}
+              <Link
+                href="/contact"
                 onClick={() => setOpen(false)}
+                className="mt-2 inline-flex w-fit items-center gap-1.5 rounded-full bg-ink dark:bg-paper text-paper dark:text-ink px-4 py-2 text-sm font-medium"
+                title="Start a web or mobile app development project"
               >
-                Get Started
-              </a>
+                Start a project
+                <ArrowUpRight size={15} />
+              </Link>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.nav>
+    </header>
   );
 }
